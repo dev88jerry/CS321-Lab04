@@ -1,193 +1,223 @@
+package Lab04B;
+
 import java.lang.Math;
 
-public class Main{
+public class Main {
+
     public static void main(String[] args) {
-        
-        Instructor[] ins = new Instructor[3];
+
         Faculty f = new Faculty(45, 15);
         Grad g = new Grad(24, 5);
         Lecturer l = new Lecturer(31, 10);
-        
-        for(int i=0;i<20;i++){
-            int mail = (i*10+50);
-            
-            for (Instructor it : ins){
-		//nulptr error somehow...
+
+        Instructor[] ins = new Instructor[3];
+        ins[0] = f;
+        ins[1] = g;
+        ins[2] = l;
+
+        for (int i = 0; i < 20; i++) {
+            int mail = (i * 10 + 50);
+
+            for (Instructor it : ins) {
+
                 it.getMail(mail);
-                
-                if ((i | 1) > i){
+
+                if ((i | 1) > i) {
                     double random = Math.random();
-                    int number = (int)(random * 10);
-                    it.reduceMail(10);
+                    int number = (int) (random * 10);
+                    it.reduceMail(number);
                 }
-                
+
             }
         }
-        
+
         System.out.println("After 20 days here are the results:");
-        for (Instructor it : ins){
+        for (Instructor it : ins) {
             System.out.println(it.toString());
-            
+
         }
-        
         
     }
 }
 
 
-import java.lang.Math;
+/*
+New Class
+*/
 
-public abstract class Instructor{
-    
+package Lab04B;
+
+public abstract class Instructor {
+
     private int age;
     private int unreadMail;
     private int eccentricities;
-    
-    public Instructor(int age, int mail){
+
+    public Instructor(int age, int mail) {
         this.age = age;
         this.unreadMail = mail;
         this.eccentricities = 0;
     }
-    
-    public int getAge(){
+
+    public int getAge() {
         return this.age;
     }
-    
-    public int getUnreadMail(){
+
+    public int getUnreadMail() {
         return this.unreadMail;
     }
-    
-    public int getEccentricities(){
+
+    public int getEccentricities() {
         return this.eccentricities;
     }
-    
+
     public abstract void cope();
-    
-    public int stress(){
+
+    public int stress() {
         if (this.unreadMail < 1000)
             return this.unreadMail;
         else
             return 1000;
     }
-    
-    public int respect(){
+
+    public int respect() {
         int ret = this.age - this.eccentricities;
-        
+
         if (ret >= 0)
             return ret;
         else
             return 0;
     }
-    
-    public void reduceMail(int readMail){
+
+    public void reduceMail(int readMail) {
         int val = this.unreadMail - readMail;
-        
+
         if (val < 0)
             this.unreadMail = 0;
         else
             this.unreadMail = val;
-        
+
     }
-    
-    public void addToEccentricities(int newEccentricities){
+
+    public void addToEccentricities(int newEccentricities) {
         int val = this.eccentricities + newEccentricities;
-        
+
         if (val < 0)
             this.eccentricities = 0;
         else
             this.eccentricities = val;
-        
+
     }
-    
-    public void getMail(int newMail){
-        
+
+    public void getMail(int newMail) {
+
         this.unreadMail += newMail;
-        
-        
+
+
         double random = Math.random();
-        
-        if(random < 0.2){
-            int number = (int)(random * 1000);
-            if ((number | 1) > number){
+
+        if (random < 0.2) {
+            int number = (int) (random * 1000);
+            if ((number | 1) > number) {
                 //even
                 this.addToEccentricities(-2);
-            }
-            else{
+            } else {
                 this.addToEccentricities(2);
             }
-            
+
         }
     }
-    
-    public String toString(){
+
+    public String toString() {
         return "My age " + this.age + " has respect " + this.respect() + " and " + this.eccentricities + " number of eccentricities and " + this.unreadMail + " number of unread messages.";
     }
-    
-    
-} 
 
-import java.lang.Math;
+}
 
-class Grad extends Instructor{
-    
-    public Grad(int age, int unreadMail){
+
+/*
+New Class
+*/
+
+package Lab04B;
+
+public class Grad extends Instructor {
+
+    public Grad(int age, int unreadMail) {
         super(age, unreadMail);
     }
-    
-    public void cope(){
+
+    @Override
+    public void cope() {
         super.reduceMail(super.getUnreadMail());
-        
-        
+
+
         double random = Math.random();
-        int number = (int)(random * 1000);
-        if (!((number | 1) > number)){
+        int number = (int) (random * 1000);
+        if (!((number | 1) > number)) {
             //odd
             super.addToEccentricities(3);
         }
     }
-    
-    public int stress(){
+
+    public int stress() {
         if (super.getUnreadMail() < 1500)
             return super.getUnreadMail();
         else
             return 1500;
     }
-    
-    
+
 }
 
-class Lecturer extends Instructor{
-    
-    public Lecturer(int age, int unreadMail){
+
+/*
+New Class
+*/
+
+package Lab04B;
+
+public class Lecturer extends Instructor {
+
+    public Lecturer(int age, int unreadMail) {
         super(age, unreadMail);
     }
-    
-    public void cope(){
+
+    @Override
+    public void cope() {
         double tmp = super.getUnreadMail();
         double val = tmp * 0.6;
         int ret = (int) val;
-        
+
         super.reduceMail(ret);
     }
 }
 
-class Faculty extends Instructor{
-    
-    public Faculty(int age, int unreadMail){
+
+/*
+New Class
+*/
+
+package Lab04B;
+
+public class Faculty extends Lecturer {
+
+    public Faculty(int age, int unreadMail) {
         super(age, unreadMail);
     }
-    
-    public void cope(){
+
+    @Override
+    public void cope() {
         super.addToEccentricities(30);
     }
-    
-    public int respect(){
+
+    public int respect() {
         int ret = super.getAge() + super.getEccentricities();
-        
+
         if (ret >= 0)
             return ret;
         else
             return 0;
     }
-    
+
 }
+
