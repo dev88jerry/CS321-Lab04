@@ -16,17 +16,17 @@ Next, let’s test out how the Java Comparator interface works. To use it, we ne
 
 This will allow you to use the Comparator interface like so:
 
-`public class AgeComparator implements Comparator`
+`public class AgeComparator implements Comparator<Person>`
 
 Recall from class that abstract methods defined within an interface need to be implemented by the concrete class. In this case, we will need to implement a compare method:
 
-`public int compare(Object arg0, Object, arg1)`
+`public int compare(Person arg0, Person arg1)`
 
 Create two classes for comparing objects of type Person by age, and by name. Call them as follows, implement their compare methods, and place them in the files AgeComparator.java, and LexicographicComparator.java.
 
-`public class AgeComparator implements Comparator`
+`public class AgeComparator implements Comparator<Person>`
 
-`public class LexicographicComparator implements Comparator`
+`public class LexicographicComparator implements Comparator<Person>`
 
 With this you can now make use of builtin Java tools for sorting! Create a Main.java file for your main function, and test your methods by creating an array of Person objects. Then, import the Collections package:
 
@@ -34,9 +34,17 @@ With this you can now make use of builtin Java tools for sorting! Create a Main.
 
 Now with your new array of type Person, you can sort it without having to implement your own sorting algorithm (so you can make use of high-quality ones):
 
+`List<People> people = Arrays.asList(p1, p2, p3, p4, p5);`
+
 `Collections.sort(people, new LexicographicComparator());`
 
 Print your array before and after sorting lexicographically, and before/after sorting by age.
+
+Note: In some cases, the Collections.sort will become temperamental and will fail to find the correct
+method. Try restarting your IDE in this case. Otherwise, please see the instructors of the class.
+
+
+---
 
 
 ### Abstract Instructor Eccentricities (20)
